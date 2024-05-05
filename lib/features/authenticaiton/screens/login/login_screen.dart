@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizz_app/constants/image_strings.dart';
 import 'package:quizz_app/constants/sizes.dart';
-import 'package:quizz_app/constants/text_strings.dart';
 import 'package:quizz_app/features/authenticaiton/screens/login/login_footer_widget.dart';
 import 'package:quizz_app/features/authenticaiton/screens/login/login_form_widget.dart';
 import 'package:quizz_app/features/authenticaiton/screens/login/login_header_widget.dart';
@@ -22,7 +20,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               LoginHeaderWidget(size: size),
               const login_form_widget(),
-              LoginFooterWidget()
+              const LoginFooterWidget()
             ],
           ),
         )),
