@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:quizz_app/constants/text_strings.dart';
+import 'package:quizz_app/features/authenticaiton/screens/home/home_screen.dart';
 
 class login_form_widget extends StatelessWidget {
   const login_form_widget({
@@ -57,7 +59,7 @@ class login_form_widget extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => Get.to(() => const HomeScreen()),
                 child: Text(tLogin.toUpperCase()),
               ),
             ),
