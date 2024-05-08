@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizz_app/features/authenticaiton/screens/home/home_screen.dart';
 import 'package:quizz_app/features/authenticaiton/screens/splash_screen/splash_screen.dart';
 import 'package:quizz_app/utils/theme/theme.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       darkTheme: TAppTheme.darkTheme,
       themeMode: ThemeMode.system,
       title: 'Flutter Demo',
-      home: const SplashScreen(),
+      home: const HomeScreen(),
     );
   }
 }
