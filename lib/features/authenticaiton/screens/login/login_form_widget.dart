@@ -60,7 +60,7 @@ class login_form_widget extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () => Get.to(() => const HomeScreen()),
-                child: Text(tLogin.toUpperCase()),
+                child: Text(Strings.tLogin.toUpperCase()),
               ),
             ),
           ],

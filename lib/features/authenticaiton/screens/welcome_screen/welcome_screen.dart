@@ -21,11 +21,11 @@ class WelcomeScreen extends StatelessWidget {
             height: height * 0.6,
           ),
           Text(
-            tWelcome,
+            Strings.tWelcome,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
           Text(
-            tWelcomeSubTiltle,
+            Strings.tWelcomeSubTiltle,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           Row(
@@ -41,7 +41,7 @@ class WelcomeScreen extends StatelessWidget {
                         primary: Colors.black,
                         side: BorderSide(color: Colors.black),
                         padding: EdgeInsets.symmetric(vertical: tButtonSize)),
-                    child: Text(tLogin.toUpperCase())),
+                    child: Text(Strings.tLogin.toUpperCase())),
               ),
               const SizedBox(width: 10.0),
               Expanded(
@@ -57,7 +57,7 @@ class WelcomeScreen extends StatelessWidget {
                         primary: Colors.black,
                         side: BorderSide(color: Colors.black),
                         padding: EdgeInsets.symmetric(vertical: tButtonSize)),
-                    child: Text(tSignUp.toUpperCase())),
+                    child: Text(Strings.tSignUp.toUpperCase())),
               ),
             ],
           )

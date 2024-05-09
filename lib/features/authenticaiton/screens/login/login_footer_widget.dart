@@ -20,7 +20,7 @@ class LoginFooterWidget extends StatelessWidget {
                 image: AssetImage(tGoogleLogoImage),
               ),
               onPressed: () {},
-              label: Text(tGoogleSignIn)),
+              label: Text(Strings.tGoogleSignIn)),
         ),
         const SizedBox(
           height: 20.0,
@@ -28,11 +28,11 @@ class LoginFooterWidget extends StatelessWidget {
         TextButton(
             onPressed: () {},
             child: Text.rich(TextSpan(
-                text: tDontHaveAnAccount,
+                text: Strings.tDontHaveAnAccount,
                 style: Theme.of(context).textTheme.bodyLarge,
                 children: const [
                   TextSpan(
-                      text: tSignUp,
+                      text: Strings.tSignUp,
                       style: TextStyle(color: Colors.blue))
                 ])))
       ],

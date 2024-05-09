@@ -54,9 +54,9 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(tAppName,
+                Text(Strings.tAppName,
                     style: Theme.of(context).textTheme.headlineSmall),
-                Text(tAppDescription,
+                Text(Strings.tAppDescription,
                     style: Theme.of(context).textTheme.headlineMedium),
               ],
             ),

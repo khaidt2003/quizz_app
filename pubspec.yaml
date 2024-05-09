@@ -37,6 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^6.2.0
   get:
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  flutter_svg: ^2.0.10+1
+  smooth_page_indicator: ^1.1.0
+  scroll_date_picker: ^3.8.0
+  popover: ^0.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,6 +73,12 @@ flutter:
     - assets/images/search.png
     # Home images are
     - assets/images/semicircle_home.png
+    - assets/images/onboard_1.png
+    - assets/images/onboard_2.png
+    - assets/images/onboard_3.png
+    - assets/images/onboard_4.png
+    - assets/images/icon_google.svg
+    - assets/images/icon_facebook.svg
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
