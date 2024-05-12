@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:quizz_app/features/authenticaiton/screens/home/home_screen.dart';
 import 'package:quizz_app/features/authenticaiton/screens/on_boarding/onboarding.dart';
 import 'package:quizz_app/firebase_options.dart';
+import 'package:quizz_app/repository/authentication_repository/authentication_repository.dart';
+import 'package:quizz_app/repository/topic_repository/topic_repository.dart';
 import 'package:quizz_app/utils/theme/theme.dart';
-import 'package:get/get.dart';
 
 MaterialColor customColor = const MaterialColor(0xFF4054AC, {
   50: Color.fromRGBO(64, 84, 172, .1),
@@ -18,21 +21,19 @@ MaterialColor customColor = const MaterialColor(0xFF4054AC, {
   800: Color.fromRGBO(64, 84, 172, .9),
   900: Color.fromRGBO(64, 84, 172, 1),
 });
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Khởi tạo Firebase với các thông tin cấu hình cụ thể
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Get.put(AuthenticationRepository());
+  Get.put(
+      TopicRepository()); // Đặt AuthenticationRepository sau khi Firebase khởi tạo hoàn tất
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -40,7 +41,29 @@ class MyApp extends StatelessWidget {
       darkTheme: TAppTheme.darkTheme,
       themeMode: ThemeMode.system,
       title: 'Flutter Demo',
-      home: const OnBoarding(),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasData) {
+              return const HomeScreen(); // Người dùng đã đăng nhập
+            }
+            return const OnBoarding(); // Người dùng chưa đăng nhập
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              body: Center(
+                  child:
+                      CircularProgressIndicator()), // Hiển thị màn hình loading
+            );
+          }
+          return const Scaffold(
+            body: Center(
+              child: Text('Có lỗi xảy ra'), // Xử lý trường hợp có lỗi
+            ),
+          );
+        },
+      ),
     );
   }
 }

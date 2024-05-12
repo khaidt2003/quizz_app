@@ -1,39 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:quizz_app/constants/colors.dart';
+import 'package:quizz_app/features/authenticaiton/controllers/signup_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final SignUpController _signUpController = Get.put(SignUpController());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(''),
+        title: const Text(''),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 16),
-            CircleAvatar(
+            const SizedBox(height: 16),
+            const CircleAvatar(
               child: Text(
                 'N',
                 style: TextStyle(fontSize: 50.0),
               ),
               radius: 50,
             ),
-            Text(
+            const Text(
               'cuongdt09061400730',
               style: TextStyle(fontSize: 30.0),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _interactiveListItem(context, 'Thêm khóa học', Icons.cake),
             _interactiveListItem(context, 'Cài đặt của bạn', Icons.settings),
             SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.whatshot),
-                Text('Chuỗi 2 ngày'),
+                ElevatedButton(
+                  onPressed: () {
+                    // Hành động khi nút được nhấn, ví dụ: đăng xuất
+                    _signUpController.logOut();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: AppColors.blueColor, // Màu nền của nút
+                    onPrimary: Colors.white, // Màu của chữ và biểu tượng
+                    elevation: 2, // Độ nổi của nút
+                    shape: RoundedRectangleBorder(
+                      // Hình dạng của nút
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 12), // Đệm cho nút
+                  ),
+                  child: Text(
+                    'Đăng Xuất', // Văn bản hiển thị trên nút
+                    style: TextStyle(
+                      fontSize: 16, // Kích thước chữ
+                      fontWeight: FontWeight.bold, // Độ đậm của chữ
+                    ),
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 16),

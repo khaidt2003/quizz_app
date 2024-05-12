@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:popover/popover.dart';
 import 'package:quizz_app/constants/colors.dart';
 import 'package:quizz_app/constants/image_strings.dart';
 import 'package:quizz_app/constants/text_strings.dart';
+import 'package:quizz_app/features/authenticaiton/controllers/signup_controller.dart';
+import 'package:quizz_app/features/authenticaiton/models/UserModel.dart';
 import 'package:quizz_app/features/authenticaiton/screens/on_boarding/onboarding.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
 
@@ -106,6 +109,8 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  final controller = Get.put(SignUpController());
+  final _formKey = GlobalKey<FormState>();
   final now = DateTime.now();
   var date = DateTime(DateTime.now().year - 1, 12, 31);
   var _obscureText = true;
@@ -127,6 +132,7 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -259,7 +265,15 @@ class _RegisterFormState extends State<RegisterForm> {
             borderSideColor: AppColors.blueColor,
             textColor: Colors.white,
             fontSizeText: 17,
-            onPressed: () {},
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                final user = UserModel(
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                    birhtday: birthDayController.text.trim());
+                SignUpController.instance.createUser(user);
+              }
+            },
           ),
           const SizedBox(height: 16),
           const Rule(

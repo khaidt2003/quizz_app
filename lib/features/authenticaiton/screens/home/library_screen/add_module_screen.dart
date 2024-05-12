@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:quizz_app/features/authenticaiton/controllers/topics_controller.dart';
+import 'package:quizz_app/repository/topic_repository/topic_repository.dart';
 import 'term_definition_card.dart'; // Đảm bảo import đúng đường dẫn
 
 class AddModuleScreen extends StatefulWidget {
@@ -9,8 +12,10 @@ class AddModuleScreen extends StatefulWidget {
 }
 
 class _AddModuleScreenState extends State<AddModuleScreen> {
+  final TopicsController _topicsController = Get.put(TopicsController());
   List<TextEditingController> _termControllers = [];
   List<TextEditingController> _definitionControllers = [];
+  TextEditingController _topicNameController = TextEditingController();
 
   bool _allowMembersToAdd = false;
 
@@ -18,6 +23,7 @@ class _AddModuleScreenState extends State<AddModuleScreen> {
   void initState() {
     super.initState();
     // Khởi tạo hai card ban đầu
+    Get.put(TopicRepository());
     addCard();
     addCard();
   }
@@ -69,8 +75,11 @@ class _AddModuleScreenState extends State<AddModuleScreen> {
             IconButton(
               icon: Icon(Icons.check), // Biểu tượng chia sẻ
               onPressed: () {
-                // Thêm hành động chia sẻ
-                print('Share button pressed');
+                _topicsController.saveTopicWithWords(
+                    _topicNameController.text,
+                    _allowMembersToAdd,
+                    _termControllers,
+                    _definitionControllers);
               },
             ),
           ],
@@ -81,6 +90,7 @@ class _AddModuleScreenState extends State<AddModuleScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
+                  controller: _topicNameController,
                   decoration: InputDecoration(
                     hintText: 'chủ đề, chương, đơn vị',
                   ),

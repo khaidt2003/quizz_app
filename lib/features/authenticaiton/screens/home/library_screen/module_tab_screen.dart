@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:quizz_app/features/authenticaiton/controllers/topics_controller.dart';
+import 'package:quizz_app/features/authenticaiton/screens/flash_card/flash_card_screen.dart';
 import 'package:quizz_app/features/authenticaiton/screens/home/course_cards.dart';
 
 class ModuleTabScreen extends StatelessWidget {
@@ -6,6 +9,7 @@ class ModuleTabScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TopicsController _topicsController = Get.put(TopicsController());
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -57,29 +61,43 @@ class ModuleTabScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
           ),
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CourseCard(
-                  courseName: "Toán cao cấp", termCount: 3, addedBy: "123"),
-              CourseCard(
-                  courseName: "Vật lý cơ bản", termCount: 5, addedBy: "456"),
-              CourseCard(
-                  courseName: "Hóa học nâng cao", termCount: 8, addedBy: "789"),
-              CourseCard(
-                  courseName: "Toán cao cấp", termCount: 3, addedBy: "123"),
-              CourseCard(
-                  courseName: "Vật lý cơ bản", termCount: 5, addedBy: "456"),
-              CourseCard(
-                  courseName: "Hóa học nâng cao", termCount: 8, addedBy: "789"),
-              CourseCard(
-                  courseName: "Toán cao cấp", termCount: 3, addedBy: "123"),
-              CourseCard(
-                  courseName: "Vật lý cơ bản", termCount: 5, addedBy: "456"),
-              CourseCard(
-                  courseName: "Hóa học nâng cao", termCount: 8, addedBy: "789"),
-              // Thêm các CourseCard khác theo cùng mẫu
-            ],
+          StreamBuilder<List<Map<String, dynamic>>>(
+            stream: _topicsController.fetchCoursesStream(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text('No courses available'));
+              }
+              return ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  var course = snapshot.data![index];
+                  List<dynamic>? words = course['words'];
+                  return InkWell(
+                    onTap: () {
+                      print(snapshot.data!.length);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FlashCardScreen(
+                            words: words!,
+                          ),
+                        ),
+                      );
+                    },
+                    child: CourseCard(
+                      courseName: course['courseName'],
+                      termCount: course['termCount'],
+                      addedBy: course['addedBy'],
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ],
       ),

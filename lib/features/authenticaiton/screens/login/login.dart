@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -103,7 +104,7 @@ class _LoginFormState extends State<LoginForm> {
                 borderSideColor: AppColors.blueColor,
                 textColor: Colors.white,
                 fontSizeText: 17,
-                onPressed: () => Get.to(() => const HomeScreen()),
+                onPressed: signInWithEmailAndPassword,
               ),
               const SizedBox(height: 16),
               Rule(
@@ -117,5 +118,29 @@ class _LoginFormState extends State<LoginForm> {
         ],
       ),
     );
+  }
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailOrUsernameController.text,
+        password: passwordController.text,
+      );
+
+      if (userCredential.user != null) {
+        Get.to(() => const HomeScreen());
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        Get.snackbar("Error", "No user found for that email.");
+      } else if (e.code == 'wrong-password') {
+        Get.snackbar("Error", "Wrong password provided.");
+      } else {
+        Get.snackbar("Error", e.message ?? "An undefined Error happened.");
+      }
+    } catch (e) {
+      Get.snackbar("Error", "An error occurred. Please try again later.");
+    }
   }
 }
